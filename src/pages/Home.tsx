@@ -41,6 +41,7 @@ export default function Home() {
         if (findBots !== -1) {
           findingBots.push(botsNames[findBots]);
         }
+        if (spec.includes("bot")) findingBots.push(spec);
       });
       setResult({
         streamer: findStreamer.slice(1),
