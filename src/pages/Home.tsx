@@ -9,6 +9,7 @@ interface FormProps {
 
 interface ResultsProps {
   amountSpecs: number;
+  streamer: string;
   bots: {
     list: string[];
     amount: number;
@@ -21,6 +22,7 @@ export default function Home() {
   });
   const [result, setResult] = useState<ResultsProps>({
     amountSpecs: 0,
+    streamer: "",
     bots: {
       list: [],
       amount: 0,
@@ -31,6 +33,7 @@ export default function Home() {
     event.preventDefault();
     if (data.list) {
       const sortList = sortingUsersList(data.list);
+      const findStreamer = sortList.find((user) => user.startsWith("~")) || "";
       const botsNames = clearBotName(twitchBotName);
       const findingBots: string[] = [];
       sortList.forEach((spec) => {
@@ -40,11 +43,14 @@ export default function Home() {
         }
       });
       setResult({
+        streamer: findStreamer.slice(1),
         amountSpecs: sortList.length,
         bots: { list: findingBots, amount: findingBots.length },
       });
     }
   };
+
+  console.log(result);
 
   return (
     <div className="flex justify-center w-full min-h-screen bg-slate-800">
@@ -73,6 +79,12 @@ export default function Home() {
           </button>
         </form>
         <div className="flex flex-col">
+          <div className="flex items-center space-x-2 text-sm text-slate-50 p-2">
+            <span className="font-medium">Streamer :</span>
+            <span className="font-medium text-cyan-500 text-xl">
+              {result.streamer}
+            </span>
+          </div>
           <div className="flex items-center space-x-2 text-sm text-slate-50 p-2">
             <span className="font-medium">Spectators :</span>
             <span className="font-medium text-cyan-500 text-xl">
