@@ -31,12 +31,18 @@ export default function Home() {
 
   const onSubmit = (event: React.FormEvent, data: FormProps) => {
     event.preventDefault();
+    const filteredData: string[] = [];
+    const dataArray = data.list.split("\n");
+    dataArray.forEach((data) => {
+      const dataFilter = data.split(" ")[0];
+      filteredData.push(dataFilter.toLowerCase());
+    });
     if (data.list) {
-      const sortList = sortingUsersList(data.list);
-      const findStreamer = sortList.find((user) => user.startsWith("~")) || "";
+      const findStreamer =
+        filteredData.find((user) => user.startsWith("~")) || "";
       const botsNames = clearBotName(twitchBotName);
       const findingBots: string[] = [];
-      sortList.forEach((spec) => {
+      filteredData.forEach((spec) => {
         const findBots = botsNames.findIndex((bot) => bot === spec);
         if (findBots !== -1) {
           findingBots.push(botsNames[findBots]);
@@ -45,7 +51,7 @@ export default function Home() {
       });
       setResult({
         streamer: findStreamer.slice(1),
-        amountSpecs: sortList.length,
+        amountSpecs: filteredData.length,
         bots: { list: findingBots, amount: findingBots.length },
       });
     }
