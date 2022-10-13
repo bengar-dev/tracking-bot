@@ -50,8 +50,6 @@ export default function Home() {
     }
   };
 
-  console.log(result);
-
   return (
     <div className="flex justify-center w-full min-h-screen bg-slate-800">
       <div className="w-full md:w-2/3 lg:w-1/3 bg-slate-700">
