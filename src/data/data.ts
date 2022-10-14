@@ -11428,7 +11428,6 @@ dreamteam5673	100	Tue, 14 Sep 2021 18:47:43 GMT
 chiru63	100	Thu, 16 Sep 2021 17:33:25 GMT
 amor_r7	100	Sat, 18 Sep 2021 05:33:40 GMT
 kevindeleon200	100	Sun, 19 Sep 2021 18:31:51 GMT
-kskskskskksks121313	100	Mon, 20 Sep 2021 02:18:20 GMT`
+kskskskskksks121313	100	Mon, 20 Sep 2021 02:18:20 GMT`;
 
 export const twitchBotName: string[] = (strings + secondList).split("\n");
-

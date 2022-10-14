@@ -49,10 +49,11 @@ export default function Home() {
         }
         if (spec.includes("bot")) findingBots.push(spec);
       });
+      const filteredBots = [...new Set(findingBots)];
       setResult({
         streamer: findStreamer.slice(1),
         amountSpecs: filteredData.length,
-        bots: { list: findingBots, amount: findingBots.length },
+        bots: { list: filteredBots, amount: filteredBots.length },
       });
     }
   };
