@@ -35,7 +35,7 @@ export default function Home() {
   });
 
   useEffect(() => {
-    // getBotsFromApi("https://api.twitchbots.info/v2/bot");
+    getBotsFromApi("https://api.twitchbots.info/v2/bot");
   }, []);
 
   const getBotsFromApi = async (api: string): Promise<any> => {
@@ -84,6 +84,21 @@ export default function Home() {
     });
   };
 
+  const rateBots = (specs: number, bots: number) => {
+    const pourcents = (bots * 100) / specs;
+    if (pourcents > 15 && specs > 20)
+      return (
+        <div className="p-2 bg-red-500 text-white">
+          Botting streamer : {pourcents.toFixed(2)} %
+        </div>
+      );
+    return (
+      <div className="p-2 bg-blue-500 text-white">
+        Clean : {pourcents.toFixed(2)} %
+      </div>
+    );
+  };
+
   return (
     <div className="flex justify-center w-full min-h-screen bg-slate-900">
       <div className="w-full md:w-2/3 lg:w-1/3 bg-slate-800">
@@ -113,6 +128,9 @@ export default function Home() {
           </button>
         </form>
         <div className="flex flex-col p-5">
+          {result.bots.amount && result.amountSpecs
+            ? rateBots(result.amountSpecs, result.bots.amount)
+            : ""}
           <div className="flex items-center space-x-2 text-sm text-slate-50 p-2">
             <span className="font-medium">
               <ImTwitch />
