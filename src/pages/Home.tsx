@@ -1,7 +1,7 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
-import { sortingUsersList } from "../misc/usersList";
-import { twitchBotName } from "../data/data";
+import { clearBotName, twitchBotName } from "../data/data";
 
 interface FormProps {
   list: string;
@@ -17,6 +17,7 @@ interface ResultsProps {
 }
 
 export default function Home() {
+  const [bots, setBots] = useState<any[]>([]);
   const [form, setForm] = useState<FormProps>({
     list: "",
   });
@@ -29,33 +30,54 @@ export default function Home() {
     },
   });
 
-  const onSubmit = (event: React.FormEvent, data: FormProps) => {
+  useEffect(() => {
+    getBotsFromApi("https://api.twitchbots.info/v2/bot");
+  }, []);
+
+  const getBotsFromApi = async (api: string): Promise<any> => {
+    const newArray: string[] = [];
+
+    const getData = async (url: string): Promise<any> => {
+      const { data } = await axios.get(url);
+      data.bots.forEach((bot: any) => newArray.push(bot.username));
+      if (data._links.next) await getData(data._links.next);
+      else return true;
+    };
+
+    await getData(api);
+    setBots(newArray);
+  };
+
+  const onSubmitList = (event: React.FormEvent, data: FormProps) => {
     event.preventDefault();
-    const filteredData: string[] = [];
+
     const dataArray = data.list.split("\n");
+    const filteredData: string[] = [];
+
     dataArray.forEach((data) => {
       const dataFilter = data.split(" ")[0];
       filteredData.push(dataFilter.toLowerCase());
     });
-    if (data.list) {
-      const findStreamer =
-        filteredData.find((user) => user.startsWith("~")) || "";
-      const botsNames = clearBotName(twitchBotName);
-      const findingBots: string[] = [];
-      filteredData.forEach((spec) => {
-        const findBots = botsNames.findIndex((bot) => bot === spec);
-        if (findBots !== -1) {
-          findingBots.push(botsNames[findBots]);
-        }
-        if (spec.includes("bot")) findingBots.push(spec);
-      });
-      const filteredBots = [...new Set(findingBots)];
-      setResult({
-        streamer: findStreamer.slice(1),
-        amountSpecs: filteredData.length,
-        bots: { list: filteredBots, amount: filteredBots.length },
-      });
-    }
+
+    const streamer = filteredData.find((user) => user.startsWith("~")) || "";
+
+    const botsNames = clearBotName(twitchBotName).concat(bots);
+
+    const findingBots: string[] = [];
+
+    filteredData.forEach((spec) => {
+      const findBot = botsNames.findIndex((bot) => bot === spec);
+      if (findBot !== -1) findingBots.push(botsNames[findBot]);
+      if (spec.includes("bot")) findingBots.push(spec);
+    });
+
+    const deleteDuplicateBots = [...new Set(findingBots)];
+
+    setResult({
+      streamer: streamer.slice(1),
+      amountSpecs: filteredData.length,
+      bots: { list: deleteDuplicateBots, amount: deleteDuplicateBots.length },
+    });
   };
 
   return (
@@ -66,7 +88,7 @@ export default function Home() {
           track bots in spectator's list
         </p>
         <form
-          onSubmit={(event) => onSubmit(event, form)}
+          onSubmit={(event) => onSubmitList(event, form)}
           className="mt-6 flex flex-col items-center w-full p-2"
         >
           <label htmlFor="list" className="p-2 mr-auto ml-0 text-cyan-300">
@@ -116,12 +138,4 @@ export default function Home() {
       </div>
     </div>
   );
-}
-
-function clearBotName(array: string[]): string[] {
-  const newArray: string[] = [];
-  array.forEach((el: string) => {
-    newArray.push(el.split("	")[0].toLowerCase());
-  });
-  return newArray;
 }
