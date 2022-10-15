@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { clearBotName, twitchBotName } from "../data/data";
 
+import { ImTwitch } from "react-icons/im";
+import { CgScreen } from "react-icons/cg";
+import { SiProbot } from "react-icons/si";
+
 interface FormProps {
   list: string;
 }
@@ -31,7 +35,7 @@ export default function Home() {
   });
 
   useEffect(() => {
-    getBotsFromApi("https://api.twitchbots.info/v2/bot");
+    // getBotsFromApi("https://api.twitchbots.info/v2/bot");
   }, []);
 
   const getBotsFromApi = async (api: string): Promise<any> => {
@@ -81,16 +85,18 @@ export default function Home() {
   };
 
   return (
-    <div className="flex justify-center w-full min-h-screen bg-slate-800">
-      <div className="w-full md:w-2/3 lg:w-1/3 bg-slate-700">
+    <div className="flex justify-center w-full min-h-screen bg-slate-900">
+      <div className="w-full md:w-2/3 lg:w-1/3 bg-slate-800">
         <Header />
-        <p className="text-center text-slate-50 italic font-medium">
-          track bots in spectator's list
-        </p>
+
         <form
           onSubmit={(event) => onSubmitList(event, form)}
-          className="mt-6 flex flex-col items-center w-full p-2"
+          className="mt-6 flex flex-col items-center w-full p-6"
         >
+          <p className="text-white text-xs italic">
+            Copy & paste a twitch's spectators list from
+            <span className="ml-1 font-bold text-purple-500">Chatty</span>
+          </p>
           <label htmlFor="list" className="p-2 mr-auto ml-0 text-cyan-300">
             Spectator list
           </label>
@@ -101,38 +107,50 @@ export default function Home() {
           ></textarea>
           <button
             type="submit"
-            className="p-2 mt-2 w-full text-sm bg-emerald-400 rounded hover:bg-emerald-600"
+            className="p-2 mt-2 ml-auto mr-0 w-max text-sm bg-emerald-400 rounded hover:bg-emerald-600"
           >
             Submit
           </button>
         </form>
-        <div className="flex flex-col">
+        <div className="flex flex-col p-5">
           <div className="flex items-center space-x-2 text-sm text-slate-50 p-2">
-            <span className="font-medium">Streamer :</span>
-            <span className="font-medium text-cyan-500 text-xl">
+            <span className="font-medium">
+              <ImTwitch />
+            </span>
+            <span className="font-medium text-purple-300 text-xl">
               {result.streamer}
             </span>
           </div>
           <div className="flex items-center space-x-2 text-sm text-slate-50 p-2">
-            <span className="font-medium">Spectators :</span>
+            <span className="font-medium">
+              <CgScreen />
+            </span>
             <span className="font-medium text-cyan-500 text-xl">
-              {result.amountSpecs}
+              {result.amountSpecs !== 0
+                ? `${result.amountSpecs} spectators`
+                : ""}
             </span>
           </div>
           <div className="flex items-center space-x-2 text-sm text-slate-50 p-2">
-            <span className="font-medium">Bots amount :</span>
-            <span className="font-medium text-cyan-500 text-xl">
-              {result.bots.amount}
+            <span className="font-medium">
+              <SiProbot />
+            </span>
+            <span className="font-medium text-rose-500 text-xl">
+              {result.bots.amount !== 0 ? `${result.bots.amount} bots` : ""}
             </span>
           </div>
-          <div className="flex items-center space-x-2 text-sm text-slate-50 p-2">
-            <span className="font-medium">Bot's names :</span>
-            <span className="font-medium text-cyan-500 text-xl flex flex-wrap space-x-1 italic text-xs">
+          <div className="flex space-x-2 text-sm text-slate-50 p-2">
+            <ul className="font-medium text-rose-200 text-xl flex flex-col space-x-1 italic text-xs">
               {result.bots.list.length > 0 &&
                 result.bots.list.map((bot: string, index: number) => (
-                  <p key={index}>{bot}</p>
+                  <li
+                    key={index}
+                    className="p-1 hover:bg-slate-500 hover:text-slate-900"
+                  >
+                    <a href={`https://twitch.tv/${bot}`}>{bot}</a>
+                  </li>
                 ))}
-            </span>
+            </ul>
           </div>
         </div>
       </div>
