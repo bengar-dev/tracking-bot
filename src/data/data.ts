@@ -11427,7 +11427,79 @@ dreamteam5673	100	Tue, 14 Sep 2021 18:47:43 GMT
 chiru63	100	Thu, 16 Sep 2021 17:33:25 GMT
 amor_r7	100	Sat, 18 Sep 2021 05:33:40 GMT
 kevindeleon200	100	Sun, 19 Sep 2021 18:31:51 GMT
-kskskskskksks121313	100	Mon, 20 Sep 2021 02:18:20 GMT`;
+kskskskskksks121313	100	Mon, 20 Sep 2021 02:18:20 GMT
+0ax2
+aliceydra
+aliengathering
+aten
+bearechoose
+bromlogal
+bsebyblog
+camended
+casinolytics
+cckette
+cfriedf
+cirbagk
+clausianr
+commanderroot
+corsibot
+coveragei
+cstroonsr
+curiouso
+dantekinej
+defensedefeated
+discordstreamercommunity
+educatu
+epsiloniran
+eyersofp
+hhtonagno
+hisonergs
+iawaydaily
+ieldskout
+ifolith
+igodsmooth
+iizzybeth
+inspireyfallen
+lawnepsilon
+lbwchan
+lipushinea
+lptruppar
+mararomano
+mescalmetres
+metremelos
+metremethane
+mionshnq
+mobitsa
+motingep
+msgapril
+nfluent
+nothnik
+nsofton
+overseep
+pitchingonding
+posingpitching
+pradoppaci
+qmicron
+qvilliery
+ramrodmod
+rocketxshang
+shypuf
+sindridn
+spiketrapclair
+splendidamended
+supplyphi
+tasstau
+tedragk
+tineatiene
+tizcloud
+triscadeh
+twayeerivj
+vasecrodz
+viivizsla
+virgoproz
+vptruppar
+woulogrinz
+zpatopt1`;
 
 export const twitchBotName: string[] = dataListBots.split("\n");
 
